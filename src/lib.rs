@@ -1,0 +1,11 @@
+pub mod available_methods;
+pub mod available_types;
+pub mod bot;
+pub mod games;
+pub mod getting_updates;
+pub mod inline_mode;
+pub mod payments;
+pub mod stickers;
+pub mod telegram_passport;
+pub mod updateing_messages;
+pub mod utils;

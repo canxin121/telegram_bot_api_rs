@@ -1,0 +1,28 @@
+[package]
+name = "telegram_bot_api_rs"
+version = "0.1.0"
+edition = "2021"
+description = "Telegram Bot Api Rust Library"
+license = "MIT OR Apache-2.0"
+authors = ["canxin121 <q1969730106@gmail.com>"]
+homepage = "https://github.com/canxin121/telegram_bot_api_rs"
+repository = "https://github.com/canxin121/telegram_bot_api_rs"
+readme = "Readme.md"
+keywords = ["bot", "chatbot", "telegram_bot_api_rs"]
+categories = [
+    "science::robotics",
+    "api-bindings",
+]
+
+[dependencies]
+anyhow = "1.0.86"
+mime_guess = "2.0.5"
+rand = "0.8.5"
+reqwest = { version = "0.12.5", features = ["blocking", "json", "multipart", "stream"] }
+serde = { version = "1.0.208", features = ["derive"] }
+serde_json = "1.0.125"
+tokio = { version = "1.39.3", features = ["full"] }
+tokio-util = { version = "0.7.11", features = ["codec"] }
+tracing = "0.1.40"
+tracing-subscriber = "0.3.18"
+urlencoding = "2.1.3"
