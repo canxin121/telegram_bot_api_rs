@@ -1,8 +1,11 @@
+use std::path::Path;
+
+use reqwest::multipart::Form;
 use serde::{Deserialize, Serialize};
 
 use crate::{
     available_types::{InlineKeyboardMarkup, ReplyParameters},
-    utils::ToMultipart,
+    utils::{file_to_multipart, ToMultipart},
 };
 
 use super::types::{InputSticker, MaskPosition};
@@ -27,6 +30,54 @@ pub struct SendStickerPayload {
     pub reply_parameters: Option<ReplyParameters>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub reply_markup: Option<InlineKeyboardMarkup>,
+}
+
+impl ToMultipart for SendStickerPayload {
+    fn to_multipart<'async_trait>(
+        self,
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
+        Box::pin(async move {
+            let mut form = reqwest::multipart::Form::new();
+            let path = Path::new(&self.sticker);
+            if path.is_file() {
+                form = file_to_multipart("sticker".to_string(), path, form).await?;
+            }else {
+                form = form.text("sticker", self.sticker);
+            }
+            form = form.text("chat_id", self.chat_id);
+            if let Some(emoji) = self.emoji {
+                form = form.text("emoji", emoji);
+            }
+            if let Some(disable_notification) = self.disable_notification {
+                form = form.text("disable_notification", disable_notification.to_string());
+            }
+            if let Some(protect_content) = self.protect_content {
+                form = form.text("protect_content", protect_content.to_string());
+            }
+            if let Some(message_effect_id) = self.message_effect_id {
+                form = form.text("message_effect_id", message_effect_id);
+            }
+            if let Some(reply_parameters) = self.reply_parameters {
+                form = form.text(
+                    "reply_parameters",
+                    serde_json::to_string(&reply_parameters)?,
+                );
+            }
+            if let Some(reply_markup) = self.reply_markup {
+                form = form.text("reply_markup", serde_json::to_string(&reply_markup)?);
+            }
+            Ok(form)
+        })
+    }
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -69,11 +120,18 @@ pub struct CreateNewStickerSetPayload {
 }
 
 impl ToMultipart for CreateNewStickerSetPayload {
-    fn to_multipart(
+     fn to_multipart<'async_trait>(
         mut self,
-    ) -> std::pin::Pin<
-        Box<dyn std::future::Future<Output = anyhow::Result<reqwest::multipart::Form>>>,
-    > {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             for sticker in self.stickers.iter_mut() {
@@ -103,11 +161,18 @@ pub struct AddStickerToSetPayload {
 }
 
 impl ToMultipart for AddStickerToSetPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<
-        Box<dyn std::future::Future<Output = anyhow::Result<reqwest::multipart::Form>>>,
-    > {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = self.sticker.to_multipart().await?;
             form = form.text("user_id", self.user_id.to_string());
@@ -137,11 +202,18 @@ pub struct ReplaceStickerInSetPayload {
 }
 
 impl ToMultipart for ReplaceStickerInSetPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<
-        Box<dyn std::future::Future<Output = anyhow::Result<reqwest::multipart::Form>>>,
-    > {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = self.sticker.to_multipart().await?;
             form = form.text("user_id", self.user_id.to_string());

@@ -11,8 +11,8 @@ use payload::*;
 use types::{Sticker, StickerSet};
 
 impl Bot {
-    pub async fn send_sticker(&self, payload: &SendStickerPayload) -> Result<Message> {
-        self.call_api_json("SendSticker", payload).await
+    pub async fn send_sticker(&self, payload: SendStickerPayload) -> Result<Message> {
+        self.call_api_multipart("sendSticker", payload).await
     }
 
     pub async fn get_sticker_set(&self, payload: &GetStickerSetPayload) -> Result<StickerSet> {

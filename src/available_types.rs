@@ -998,6 +998,8 @@ pub struct Message {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub venue: Option<Venue>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    pub location: Option<Location>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub new_chat_members: Option<Vec<User>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub left_chat_member: Option<User>,

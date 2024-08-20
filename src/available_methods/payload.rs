@@ -145,9 +145,18 @@ pub struct SendPhotoPayload {
 }
 
 impl ToMultipart for SendPhotoPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<Form>>>> {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             let path = Path::new(&self.photo);
@@ -231,9 +240,18 @@ pub struct SendAudioPayload {
 }
 
 impl ToMultipart for SendAudioPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<Form>>>> {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             let path = Path::new(&self.audio);
@@ -321,9 +339,18 @@ pub struct SendDocumentPayload {
 }
 
 impl ToMultipart for SendDocumentPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<Form>>>> {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             if let Some(document) = self.document {
@@ -420,9 +447,18 @@ pub struct SendVideoPayload {
 }
 
 impl ToMultipart for SendVideoPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<Form>>>> {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             if let Some(video) = self.video {
@@ -523,9 +559,18 @@ pub struct SendAnimationPayload {
 }
 
 impl ToMultipart for SendAnimationPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<Form>>>> {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             if let Some(animation) = self.animation {
@@ -613,9 +658,18 @@ pub struct SendVoicePayload {
 }
 
 impl ToMultipart for SendVoicePayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<Form>>>> {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             if let Some(voice) = self.voice {
@@ -687,9 +741,18 @@ pub struct SendVideoNotePayload {
 }
 
 impl ToMultipart for SendVideoNotePayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<Form>>>> {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             if let Some(video_note) = self.video_note {
@@ -761,9 +824,18 @@ pub struct SendPaidMediaPayload {
 }
 
 impl ToMultipart for SendPaidMediaPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         mut self,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<Form>>>> {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             for media in self.media.iter_mut() {
@@ -804,6 +876,7 @@ impl ToMultipart for SendPaidMediaPayload {
         })
     }
 }
+
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 pub struct SendMediaGroupPayload {
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -823,9 +896,18 @@ pub struct SendMediaGroupPayload {
 }
 
 impl ToMultipart for SendMediaGroupPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         mut self,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<Form>>>> {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             for media in self.media.iter_mut() {
@@ -1206,9 +1288,18 @@ pub struct SetChatPhotoPayload {
 }
 
 impl ToMultipart for SetChatPhotoPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<Box<dyn std::future::Future<Output = anyhow::Result<Form>>>> {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             let path = Path::new(&self.photo);

@@ -5,7 +5,7 @@ async fn main() -> Result<()> {
     tracing_subscriber::fmt::init();
     let token = std::env::var("TOKEN").expect("TOKEN is not Set");
     let bot = Bot::new(token);
-    bot.start_get_updates(Default::default()).await?;
+    bot.start_get_updates(Default::default());
     let mut subscriber = bot.subscribe_updates();
     while let Ok(update) = subscriber.recv().await {
         println!("{:#?}", update);

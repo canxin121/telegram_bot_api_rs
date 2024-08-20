@@ -1,9 +1,10 @@
 use anyhow::Result;
 use reqwest::multipart::{self, Form};
-use std::{future::Future, path::Path, pin::Pin};
+use std::path::Path;
 
+#[async_trait::async_trait]
 pub(crate) trait ToMultipart {
-    fn to_multipart(self) -> Pin<Box<dyn Future<Output = Result<Form>>>>;
+    async fn to_multipart(self) -> Result<Form>;
 }
 
 pub async fn file_to_multipart<P: AsRef<Path>>(key: String, path: P, form: Form) -> Result<Form> {

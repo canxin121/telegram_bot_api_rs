@@ -1,3 +1,4 @@
+use reqwest::multipart::Form;
 use serde::{Deserialize, Serialize};
 
 use crate::utils::ToMultipart;
@@ -20,11 +21,18 @@ pub struct SetWebhookPayload {
 }
 
 impl ToMultipart for SetWebhookPayload {
-    fn to_multipart(
+    fn to_multipart<'async_trait>(
         self,
-    ) -> std::pin::Pin<
-        Box<dyn std::future::Future<Output = anyhow::Result<reqwest::multipart::Form>>>,
-    > {
+    ) -> ::core::pin::Pin<
+        Box<
+            dyn ::core::future::Future<Output = anyhow::Result<Form>>
+                + ::core::marker::Send
+                + 'async_trait,
+        >,
+    >
+    where
+        Self: 'async_trait,
+    {
         Box::pin(async move {
             let mut form = reqwest::multipart::Form::new();
             form = form.text("url", self.url);

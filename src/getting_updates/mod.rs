@@ -7,7 +7,6 @@ use tokio::sync::broadcast::Receiver;
 use types::{AllowedUpdateType, Update, UpdateData};
 
 use crate::bot::Bot;
-use anyhow::Result;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct GetUpdatesResponse {
@@ -44,7 +43,7 @@ impl Bot {
         self.sender.subscribe()
     }
 
-    pub async fn start_get_updates(&self, mut config: GetUpdateConfig) -> Result<()> {
+    pub fn start_get_updates(&self, mut config: GetUpdateConfig) {
         let url = self.format_url("getUpdates");
         let client = self.client.clone();
         let mut last_update_id: Option<i64> = None;
@@ -92,6 +91,5 @@ impl Bot {
                 }
             }
         });
-        Ok(())
     }
 }

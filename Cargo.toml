@@ -8,7 +8,7 @@ authors = ["canxin121 <q1969730106@gmail.com>"]
 homepage = "https://github.com/canxin121/telegram_bot_api_rs"
 repository = "https://github.com/canxin121/telegram_bot_api_rs"
 readme = "Readme.md"
-keywords = ["bot", "chatbot", "telegram_bot_api_rs"]
+keywords = ["bot", "chatbot", "telegram"]
 categories = [
     "science::robotics",
     "api-bindings",
@@ -16,9 +16,10 @@ categories = [
 
 [dependencies]
 anyhow = "1.0.86"
+async-trait = "0.1.81"
 mime_guess = "2.0.5"
 rand = "0.8.5"
-reqwest = { version = "0.12.5", features = ["blocking", "json", "multipart", "stream"] }
+reqwest = { version = "0.12.7", features = ["json", "multipart", "stream"] }
 serde = { version = "1.0.208", features = ["derive"] }
 serde_json = "1.0.125"
 tokio = { version = "1.39.3", features = ["full"] }
